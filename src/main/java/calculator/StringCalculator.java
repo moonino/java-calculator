@@ -43,4 +43,3 @@ public class StringCalculator {
         return text.split("[,:]");
     }
 }
-
