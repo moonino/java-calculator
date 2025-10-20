@@ -15,6 +15,8 @@ public class StringCalculator {
         // 4. 숫자 변환 및 합산 기능
         int sum = 0;
         for (String numberStr : numbersText) {
+            if (numberStr.isEmpty())
+            { continue; }
             try {
                 int number = Integer.parseInt(numberStr);
                 // 6.(1) 음수 입력 시 예외 처리
@@ -33,7 +35,7 @@ public class StringCalculator {
 
     private String[] split(String text) {
         // 5. 커스텀 구분자 처리 기능
-        Matcher m = Pattern.compile("//(.)\\R(.*)").matcher(text);
+        Matcher m = Pattern.compile("//(.)\\\\n(.*)").matcher(text);
         if (m.find()) {
             String customDelimiter = m.group(1);
             String numbers = m.group(2);
