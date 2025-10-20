@@ -10,25 +10,37 @@ public class StringCalculator {
             return 0;
         }
 
-        String[] numbers;
-
-        // 5. 커스텀 구분자 처리 기능 (모든 줄바꿈 문자를 처리하도록 수정)
-        Matcher m = Pattern.compile("//(.)\\R(.*)").matcher(text);
-        if (m.find()) {
-            String customDelimiter = m.group(1);
-            String numbersText = m.group(2);
-            numbers = numbersText.split(Pattern.quote(customDelimiter));
-        } else {
-            // 3. 기본 구분자 처리 기능
-            numbers = text.split("[,:]");
-        }
+        String[] numbersText = split(text);
 
         // 4. 숫자 변환 및 합산 기능
         int sum = 0;
-        for (String number : numbers) {
-            sum += Integer.parseInt(number);
+        for (String numberStr : numbersText) {
+            try {
+                int number = Integer.parseInt(numberStr);
+                // 6.(1) 음수 입력 시 예외 처리
+                if (number < 0) {
+                    throw new IllegalArgumentException("음수는 입력할 수 없습니다.");
+                }
+                sum += number;
+            } catch (NumberFormatException e) {
+                // 6.(2)숫자가 아닌 값 입력 시 예외 처리
+                throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다.");
+            }
         }
 
         return sum;
     }
+
+    private String[] split(String text) {
+        // 5. 커스텀 구분자 처리 기능
+        Matcher m = Pattern.compile("//(.)\\R(.*)").matcher(text);
+        if (m.find()) {
+            String customDelimiter = m.group(1);
+            String numbers = m.group(2);
+            return numbers.split(Pattern.quote(customDelimiter));
+        }
+        // 3. 기본 구분자 처리 기능
+        return text.split("[,:]");
+    }
 }
+
