@@ -9,7 +9,10 @@ public class Application {
         System.out.println("덧셈할 문자열을 입력해 주세요.");
         String input= Console.readLine();
 
-        System.out.println("입력 확인: "+input);
+        StringCalculator calculator = new StringCalculator();
+        int result = calculator.add(input);
+
+        System.out.println("결과: "+ result);
 
     }
 }
